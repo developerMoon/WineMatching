@@ -80,7 +80,7 @@ public class selectedwine extends JFrame implements ActionListener{
 
 //
 //
-	public void show(int sweet, String type, int lprice, int hprice) {
+	public void show(int body, int sweet, String type, int lprice, int hprice) {
 		
 			//System.out.println(sweet+" "+type+" "+price);
 			//table refresh-우선 새 defaulttable에 담아서 다 지우고
@@ -89,7 +89,7 @@ public class selectedwine extends JFrame implements ActionListener{
 			//검색한 와인 정보 보여주기
 			//레드나 타입으로 검색하게
 			//시간이 나면 생각해 보는걸로
-			 vec=dao.getTable(sweet, type, lprice, hprice);	
+			 vec=dao.getTable(body, sweet, type, lprice, hprice);	
 			
 			//타입별 와인 조회
 			
