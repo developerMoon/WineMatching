@@ -22,6 +22,7 @@ import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 
 public class winebasket extends JFrame implements ActionListener{
 
@@ -37,6 +38,7 @@ public class winebasket extends JFrame implements ActionListener{
 	private JMenuItem mntInfo;
 	private JMenuItem mntDel;
 	private String id;
+	
 	public winebasket(String id) {
 		this.id=id;
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -61,7 +63,7 @@ public class winebasket extends JFrame implements ActionListener{
 				{null, null},
 			},
 			new String[] {
-				"Winename", "Price"
+				"Winename", "Price","count"
 			}
 		));
 		scrollPane.setViewportView(table);
@@ -85,9 +87,7 @@ public class winebasket extends JFrame implements ActionListener{
 		btnOrder.addActionListener(this);
 		btnBack.addActionListener(this);
 		
-		model = (DefaultTableModel) table.getModel();
-		model.setRowCount(0);
-		
+		tableReset();
 		
 		popupMenu = new JPopupMenu();
 		addPopup(table, popupMenu);
@@ -95,71 +95,25 @@ public class winebasket extends JFrame implements ActionListener{
 		mntInfo = new JMenuItem("상세정보");
 		popupMenu.add(mntInfo);
 		
-		mntDel = new JMenuItem("삭제");
+		mntDel = new JMenuItem("물건빼기");
 		popupMenu.add(mntDel);
 		
 		mntInfo.addActionListener(new ActionListener() {
 			//상세정보보기
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int row=table.getSelectedRow();
-				String wineName=(String) model.getValueAt(row, 0);
-				
-				WineDAO dao=new WineDAO();
-				WineVO vo=dao.getRow(wineName);
-				WineDetail wd=new WineDetail(vo.getNo());
-				
-				wd.setVisible(true);
-				
+				showWineDetail();
 			}
 		});
 		
 		mntDel.addActionListener(new ActionListener() {
-			//삭제하는부분
+			//물건뺴기
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int row=table.getSelectedRow();
-				
-				String wineName=(String) model.getValueAt(row, 0);
-				model.removeRow(row);
-				BasketDAO bDao=new BasketDAO();
-				bDao.delBasket(wineName, id);
-				
-				//다시출력
-				table.repaint();
-				BasketDAO bDAO=new BasketDAO();
-				Vector<BasketVO> bVec=bDAO.getBasket(id);
-				int sum=0;
-				for(int i=0;i<bVec.size();i++) {
-					BasketVO bVo=bVec.get(i);
-					sum+=bVo.getPrice();
-				}
-				txtsum.setText(sum+"");
+				delBasket();//자바 DB에서 삭제
+				tableReset();//테이블에 다시 뿌리기
 			}
 		});
-	}
-		
-
-	
-	public void showbasket(Vector<BasketVO> bVec) {
-		//System.out.println(idx);
-		//매개값 int 여러개 얻기 위해 for 돌린다
-		
-		
-		
-		//for(int i : select) {
-		int sum=0;	
-		
-		for(BasketVO vo : bVec) {
-			rowData=new Vector<>();
-			rowData.addElement(vo.getName());
-			rowData.addElement(vo.getPrice());
-			model.addRow(rowData);
-			sum +=vo.getPrice();
-		}// vec for 문 끝
-		
-		txtsum.setText(sum+"");
-	//}
 	}
 
 	@Override
@@ -170,14 +124,10 @@ public class winebasket extends JFrame implements ActionListener{
 			order.setVisible(true);
 			dispose();
 		}else if(btn==btnBack) {//이전
-			 selectedwine wine= new selectedwine(id);		 
-			 wine.setVisible(true);
 			 dispose();
 		}
 		
 	}
-	
-	
 	
 	private static void addPopup(Component component, final JPopupMenu popup) {
 		component.addMouseListener(new MouseAdapter() {
@@ -197,5 +147,60 @@ public class winebasket extends JFrame implements ActionListener{
 		});
 	}
 	
+	public void showWineDetail() { //상세정보 띄워주는 페이지
+		int row=table.getSelectedRow();
+		String wineName=(String) model.getValueAt(row, 0);
+		WineDAO dao=new WineDAO();
+		WineVO vo=dao.getRow(wineName);
+		WineDetail wd=new WineDetail(vo.getNo());
+		wd.setVisible(true);
+	}
+	public void delBasket() { //장바구니 DB에서 삭제하는 부분
+		BasketDAO bDao=new BasketDAO();
+		model=(DefaultTableModel) table.getModel();
+		int row=table.getSelectedRow();
+		int count=(int) model.getValueAt(row, 2);
+		String name=(String) model.getValueAt(row, 0);
+		if(count>1) {
+			String str="";
+			for(int i=1;i<=count;i++) {
+				str+=i+"-";
+			}
+			String[] strCount=str.split("-");
+			
+			String strCount1=(String) JOptionPane.showInputDialog(null, "몇병을 빼시겠습니까?",
+			        "주문수정", JOptionPane.QUESTION_MESSAGE, null, strCount, "1");
+			int count1=Integer.parseInt(strCount1);
+			int originCount=bDao.getCount(name, id);
+			
+			if(originCount==count1) {
+				bDao.delBasket(name, id);
+			}else {
+				bDao.countDown(name, id, originCount, count);
+			}
+		}else {
+			bDao.delBasket(name, id);
+		}
+		
+		
+		
+	}
+	public void tableReset() {//테이블에 다시 뿌리는 것
+		DefaultTableModel model=(DefaultTableModel) table.getModel();
+		model.setRowCount(0);//초기화
+		BasketDAO bDAO=new BasketDAO();
+		Vector<BasketVO> bVec=bDAO.getBasket(id);
+		int sum=0;	
+		for(BasketVO vo : bVec) {
+			rowData=new Vector<>();
+			rowData.addElement(vo.getName());
+			rowData.addElement(vo.getPrice());
+			rowData.addElement(vo.getCount());
+			model.addRow(rowData);
+			int count=vo.getCount();
+			sum +=(vo.getPrice()*count);
+		}// vec for 문 끝
+		txtsum.setText(sum+"");
+	}
 	
 }

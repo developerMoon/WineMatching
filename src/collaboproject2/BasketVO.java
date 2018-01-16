@@ -2,19 +2,29 @@ package collaboproject2;
 
 public class BasketVO {
 
-	String id; //고객아이디
-	int no;	//상품번호
-	String name;	//와인이름
-	String country; //원산지
-	int price;//가격
+	private String id; //고객아이디
+	private int no;	//상품번호
+	private String name;	//와인이름
+	private String country; //원산지
+	private int price;//가격
+	private int count; //개수
 	
-	public BasketVO(String id, int no, String name, String country, int price) {
+	public BasketVO(String id, int no, String name, String country, int price, int count) {
 		super();
 		this.id = id;
 		this.no = no;
 		this.name = name;
 		this.country = country;
 		this.price = price;
+		this.count=count;
+	}
+
+	public int getCount() {
+		return count;
+	}
+
+	public void setCount(int count) {
+		this.count = count;
 	}
 
 	public String getId() {

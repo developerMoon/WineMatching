@@ -11,6 +11,9 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
+
+import javafx.scene.layout.Border;
+
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -22,11 +25,15 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.image.TileObserver;
+import java.nio.ByteOrder;
+import java.util.Vector;
 import java.awt.event.ActionEvent;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.ScrollPaneConstants;
 
 import java.awt.GridLayout;
@@ -37,6 +44,8 @@ import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.CardLayout;
+import java.awt.Component;
+import java.awt.Container;
 import java.awt.Dimension;
 
 //결제하는 클래스
@@ -47,9 +56,13 @@ public class WineOrder extends JFrame implements ActionListener{
 	private JPanel panel=new JPanel();
 	private CardLayout card=new CardLayout();
 	private JButton btnBack,btnNext,btnCancel;
-	JTextField txt2,txt3,cTxt2;
-	int pageCount=0;  //0=메인페널 1현금결제 2카드결제 3현금결제중간 4 카드겔제중간 5결제끝
+	private JTextField txt3;
+	private int pageCount=0;  //0=메인페널 1=현금결제 2=카드결제 3=마지막페이지
 	private String id;
+	private int sum=0;
+	
+	
+
 	
 	public WineOrder(String id) {
 		this.id=id;
@@ -84,6 +97,7 @@ public class WineOrder extends JFrame implements ActionListener{
 		btnNext.addActionListener(this);
 		btnBack.addActionListener(this);
 		btnCancel.addActionListener(this);
+		
 		//선택패널
 		JPanel selectPanel=new JPanel();
 		selectPanel.setLayout(new GridLayout(0, 2));
@@ -100,78 +114,91 @@ public class WineOrder extends JFrame implements ActionListener{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				card.show(panel, "cash");	
-				pageCount=1;
-				btnBack.setEnabled(true);
-				rbtnCash.setSelected(false);
 				titleLabel.setText("현금결제");
+				card.show(panel, "cash");
 				btnNext.setText("결제하기");
+				btnNext.setEnabled(false);
+				btnBack.setEnabled(true);
+				pageCount=1;
 			}
 		});
 		rbtnCard.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				card.show(panel, "card");	
-				pageCount=2;
-				btnBack.setEnabled(true);
-				rbtnCard.setSelected(false);
 				titleLabel.setText("카드결제");
+				card.show(panel, "card");
 				btnNext.setText("결제하기");
+				btnNext.setEnabled(false);
+				btnBack.setEnabled(true);
+				pageCount=2;
 			}
 		});
-		//현금
-		JPanel cashPanel=new JPanel();
-		cashPanel.setLayout(new BorderLayout());
+		
+		//현금결제패널
+		JPanel cashPanel=new JPanel(new BorderLayout());
+		
+		//북쪽
+		//센터
+		JPanel centerPanel=new JPanel();
 		JScrollPane scroll=new JScrollPane();
-		String columnNames[]= {"상품번호","이름","원산지","가격"};
-		DefaultTableModel model=new DefaultTableModel(null, columnNames);
-		JTable table=new JTable(model);
+		JTable  table = new JTable();
+		table.setModel(new DefaultTableModel(
+			new Object[][] {
+				{null, null},
+			},
+			new String[] {
+				"상품번호","이름","가격","수량"
+			}
+		));
 		scroll.setViewportView(table);
-		cashPanel.add(scroll,BorderLayout.CENTER);
-		JLabel priceLabel=new JLabel("총 가격");
-		JTextField priceTxt=new JTextField();
-		priceTxt.setColumns(10);
-		priceTxt.setEditable(false);
-		JPanel southPanel=new JPanel();
-		southPanel.add(priceLabel);
-		southPanel.add(priceTxt);
-		cashPanel.add(southPanel,BorderLayout.SOUTH);
+		centerPanel.add(scroll);
+		cashPanel.add(centerPanel,BorderLayout.CENTER);
 		
-		panel.add(cashPanel,"cash");
-		//현금결제
-		JPanel cashPanel2=new JPanel();
-		cashPanel2.setLayout(new GridLayout(0,2));
-		JLabel lbl1= new JLabel("결제할 금액");
-		JTextField txt1=new JTextField();
-		txt1.setColumns(10);
-		txt1.setEditable(false);
-		JLabel lbl2= new JLabel("지불할 금액");
-		txt2=new JTextField();
-		txt2.setColumns(10);
-		JLabel lbl3= new JLabel("남은 금액");
-		txt3=new JTextField();
-		txt3.setColumns(10);
-		txt3.setEditable(false);
+		DefaultTableModel model=(DefaultTableModel) table.getModel();
+		model.setRowCount(0);
+		BasketDAO bDAO=new BasketDAO();
+		Vector<BasketVO> bVec=bDAO.getBasket(id);
+		Vector<Object> rowData;
+		for(BasketVO vo : bVec) {
+			rowData=new Vector<>();
+			rowData.addElement(vo.getNo());
+			rowData.addElement(vo.getName());
+			rowData.addElement(vo.getPrice());
+			rowData.addElement(vo.getCount());
+			model.addRow(rowData);
+			int count=vo.getCount();
+			sum +=(vo.getPrice()*count);
+		}		
+		//남쪽
+		JPanel southPanel=new JPanel(new GridLayout(0, 2));
+		JLabel label=new JLabel("총액");
+		JTextField text=new JTextField();
+		text.setEnabled(false);
+		text.setText(sum+"");
+		JLabel label2=new JLabel("입금");
+		JTextField text2=new JTextField();
+		JLabel label3=new JLabel("잔돈");
+		JTextField text3=new JTextField();
+		text3.setEnabled(false);
+		southPanel.add(label);
+		southPanel.add(text);
+		southPanel.add(label2);
+		southPanel.add(text2);
+		southPanel.add(label3);
+		southPanel.add(text3);
+		cashPanel.add(southPanel, BorderLayout.SOUTH);
 		
-		cashPanel2.add(lbl1);
-		cashPanel2.add(txt1);
-		cashPanel2.add(lbl2);
-		cashPanel2.add(txt2);
-		cashPanel2.add(lbl3);
-		cashPanel2.add(txt3);
-		panel.add(cashPanel2, "cash2");
-		
-		txt2.addKeyListener(new KeyAdapter() {
-			
+		text2.addKeyListener(new KeyAdapter() {
 			@Override
+
 			public void keyReleased(KeyEvent e) {
 				try {
 					btnNext.setEnabled(true);
-				int a=Integer.parseInt(txt1.getText());
-				int b=Integer.parseInt(txt2.getText());
+				int a=Integer.parseInt(text.getText());
+				int b=Integer.parseInt(text2.getText());
 				int result=b-a;
-				txt3.setText(String.valueOf(result));
+				text3.setText(String.valueOf(result));
 				if(result>=0) {
 					btnNext.setEnabled(true);
 				}else {
@@ -182,122 +209,133 @@ public class WineOrder extends JFrame implements ActionListener{
 					txt3.setText("");
 				}
 			}
-			
-		});
-		//현금결제 끝
-		JPanel cashPanel3=new JPanel();
-		cashPanel3.setLayout(new GridLayout(0, 1));
-		JLabel lbl4= new JLabel("결제완료");
-		JLabel lbl5=new JLabel("구매해 주셔서 감사합니다.");
-		cashPanel3.add(lbl4);
-		cashPanel3.add(lbl5);
-		panel.add(cashPanel3, "cash3");
+		});	
+		panel.add(cashPanel, "cash");
 		
 		
-		//카드
-		JPanel cardPanel=new JPanel();
-		cardPanel.setLayout(new BorderLayout());
-		JScrollPane scroll2=new JScrollPane();
-		String columnNames2[]= {"상품번호","이름","원산지","가격"};
-		DefaultTableModel model2=new DefaultTableModel(null, columnNames2);
-		JTable table2=new JTable(model2);
-		scroll2.setViewportView(table2);
-		cardPanel.add(scroll2,BorderLayout.CENTER);
-		JLabel priceLabel2=new JLabel("총 가격");
-		JTextField priceTxt2=new JTextField();
-		priceTxt2.setColumns(10);
-		JPanel southPanel2=new JPanel();
-		southPanel2.add(priceLabel2);
-		southPanel2.add(priceTxt2);
-		cardPanel.add(southPanel2, BorderLayout.SOUTH);
-		panel.add(cardPanel,"card");
-		
-		//카드중간
+		//카드결제패널
+		JPanel cardPanel=new JPanel(new BorderLayout());
+		//북쪽
+		//센터
+		JPanel c_centerPanel=new JPanel();
+		JScrollPane c_scroll=new JScrollPane();
+		JTable  c_table = new JTable();
+		c_table.setModel(new DefaultTableModel(
+			new Object[][] {
+				{null, null},
+			},
+			new String[] {
+				"상품번호","이름","가격","수량"
+			}
+		));
+		c_scroll.setViewportView(c_table);
+		c_centerPanel.add(c_scroll);		
+		DefaultTableModel c_model=(DefaultTableModel) c_table.getModel();
+		c_model.setRowCount(0);
+		Vector<Object> rowData2;
+		for(BasketVO vo : bVec) {
+			rowData2=new Vector<>();
+			rowData2.addElement(vo.getNo());
+			rowData2.addElement(vo.getName());
+			rowData2.addElement(vo.getPrice());
+			rowData2.addElement(vo.getCount());
+			c_model.addRow(rowData2);
+			int count=vo.getCount();
+			sum +=(vo.getPrice()*count);
+		}
+		cardPanel.add(c_centerPanel,BorderLayout.CENTER);
+		JPanel cPanel=new JPanel(new BorderLayout());
+		//남쪽
+		JPanel c_southPanel=new JPanel(new GridLayout(0, 2));
+		JLabel c_label=new JLabel("총액");
+		JTextField c_text=new JTextField();
+		c_text.setEnabled(false);
+		c_text.setText(sum+"");
+		JLabel c_label2=new JLabel("입금");
+		JTextField c_text2=new JTextField();
+		JLabel c_label3=new JLabel("잔돈");
+		JTextField c_text3=new JTextField();
+		c_text3.setEnabled(false);
+		c_southPanel.add(c_label);
+		c_southPanel.add(c_text);
+		c_southPanel.add(c_label2);
+		c_southPanel.add(c_text2);
+		c_southPanel.add(c_label3);
+		c_southPanel.add(c_text3);
+				
+		c_text2.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				try {
+					btnNext.setEnabled(true);
+				int a=Integer.parseInt(c_text.getText());
+				int b=Integer.parseInt(c_text2.getText());
+				int result=b-a;
+				c_text3.setText(String.valueOf(result));
+				if(result>=0) {
+					btnNext.setEnabled(true);
+				}else {
+					btnNext.setEnabled(false);
+				}
+			}catch(NumberFormatException nfe) {
+				btnNext.setEnabled(false);
+				txt3.setText("");
+				}
+			}
+		});	
 		JPanel cardPanel2=new JPanel();
 		cardPanel2.setLayout(new BorderLayout());
 		JScrollPane scroll3=new JScrollPane();
 		String listData[]= {"국민","하나","신한","농협","우리","기업","외환"};
 		JList<String> list=new JList<>(listData);
+		list.setVisibleRowCount(1);
+		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		scroll3.setViewportView(list);
 		cardPanel2.add(list,BorderLayout.CENTER);
-		
-		JLabel cLbl1= new JLabel("결제할 금액");
-		JTextField cTxt1=new JTextField();
-		cTxt1.setColumns(10);
-		cTxt1.setEditable(false);
-		JLabel cLbl2= new JLabel("지불할 금액");
-		cTxt2=new JTextField();
-		cTxt2.setEditable(false);
-		cTxt2.setColumns(10);
-		JPanel panel_cardPanel2=new JPanel();
-		panel_cardPanel2.setLayout(new GridLayout(0, 2));
-		panel_cardPanel2.add(cLbl1);
-		panel_cardPanel2.add(cTxt1);
-		panel_cardPanel2.add(cLbl2);
-		panel_cardPanel2.add(cTxt2);
-		cardPanel2.add(panel_cardPanel2,BorderLayout.SOUTH);
-		panel.add(cardPanel2,"card2");
-		
-		list.addListSelectionListener(new ListSelectionListener() {
-			
+		list.addListSelectionListener(new ListSelectionListener() {			
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
-				cTxt2.setText(cTxt1.getText());
+				c_text2.setText(c_text.getText());
 				btnNext.setEnabled(true);
+				c_text3.setText("0");
 			}
+
 		});
-		//카드결제끝
+		cPanel.add(c_southPanel,BorderLayout.CENTER);
+		cPanel.add(cardPanel2,BorderLayout.SOUTH);
+		cardPanel.add(cPanel, BorderLayout.SOUTH);
+		
+		panel.add(cardPanel, "card");
 		
 		
+		//마지막 결제
+		JPanel lastPanel=new JPanel();
+		lastPanel.setLayout(new GridLayout(0, 1));
+		JLabel lastLbl=new JLabel("구매해 주셔서 감사합니다.");
+		lastPanel.add(lastLbl);
+		panel.add(lastPanel, "last");		
 		}
 	
-
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		JButton btn=(JButton)e.getSource();
 		if(btn==btnBack) {
-			if(pageCount==1 || pageCount==2) {
 				card.show(panel, "main");
-				btnBack.setEnabled(false);
-				pageCount=0;
-				titleLabel.setText("결제선택");
-			}else if(pageCount==3) {
-				card.show(panel, "cash");
-				pageCount=1;
-				btnNext.setEnabled(true);
-				txt2.setText("");
-				txt3.setText("");
-			}else if(pageCount==4) {
-				card.show(panel, "card");
-				pageCount=2;
-				btnNext.setEnabled(true);
-				cTxt2.setText("");
-			}
-			
+				reset();
+				pageCount=0;		
 		}else if(btn==btnNext) {
-			if(pageCount==1) {//현금결제
-				card.show(panel, "cash2");
-				pageCount=3;
-				btnNext.setText("결제");
-				btnNext.setEnabled(false);
-			}else if(pageCount==2) {//카드결제중간
-				card.show(panel, "card2");
-				pageCount=4;
-				btnNext.setText("결제");
-				btnNext.setEnabled(false);
-			}else if(pageCount==3 || pageCount==4) {//현금결제중간
-				card.show(panel, "cash3");
-				btnBack.setVisible(false);
-				btnNext.setText("구매완료");
-				pageCount=5;
+			if(pageCount==1 || pageCount==2) {
 				titleLabel.setText("결제완료");
-			}else if(pageCount==5) {//현금결제 끝 버튼초기화닫기 
+				card.show(panel, "last");
+				btnNext.setText("확인");
+				btnBack.setVisible(false);
+				pageCount=3;
+			}else if(pageCount==3) {
 				reset();
 				dispose();
 			}
 		}else if(btn==btnCancel) {
-			winebasket basket=new winebasket(id);
-			basket.setVisible(true);
+			reset();
 			dispose();
 		}
 	}
@@ -305,7 +343,9 @@ public class WineOrder extends JFrame implements ActionListener{
 		btnNext.setText("확인");
 		btnBack.setText("이전");
 		btnBack.setVisible(true);
+		btnBack.setEnabled(false);
 		titleLabel.setText("결제선택");
+		pageCount=0;
 	}
 	
 	
