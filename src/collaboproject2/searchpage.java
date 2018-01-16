@@ -52,21 +52,10 @@ public class searchpage extends JFrame implements ActionListener{
 	private JRadioButton rd5;
 	public ButtonGroup toping , menu, money;
 	private JButton btn;
-
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					searchpage frame = new searchpage();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	public searchpage() {
+	private String id;
+	
+	public searchpage(String id) {
+		this.id=id;
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);//x버튼 비활성화
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -263,7 +252,7 @@ public class searchpage extends JFrame implements ActionListener{
 		String type="화이트";
 		int money=20000;*/
 			
-		 selectedwine wine= new selectedwine();		 
+		 selectedwine wine= new selectedwine(id);		 
 		 wine.setVisible(true);
 		 wine.show(sweet, type, price);
 		 //System.out.println("ddd");

@@ -117,6 +117,39 @@ public class WineDAO {
 		}
 		return vo;
 	}
+	public WineVO getRow(String name) {
+		Connection con=null;
+		PreparedStatement psmt=null;
+		ResultSet rs=null;
+		WineVO vo=null;
+		try {
+			con=getConnection();
+			String sql="select * from winetbl where name=?";
+			psmt=con.prepareStatement(sql);
+			psmt.setString(1, name); //no는 primary key라 하나만 존재하므로
+			rs=psmt.executeQuery(); //while돌릴 필요 없음
+			while(rs.next()) {	
+				int no1=rs.getInt(1);
+				String country=rs.getString(3);
+				String type=rs.getString(4);
+				int sweet=rs.getInt(5);
+				int body=rs.getInt(6);
+				int price=rs.getInt(7);
+				String company=rs.getString(8);
+				int vintage=rs.getInt(9);
+				String food=rs.getString(10);
+				
+				vo=new WineVO(no1, name, country, type, sweet, body, price, company, vintage, food);
+				
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			dbClose(con, psmt, rs);
+		}
+		return vo;
+	}
+	
 	//와인 레드, 화이트 등 타입에 따라 조회
 	public Vector<WineVO> getType(String type) {
 		Vector<WineVO> vec=new Vector<>();

@@ -102,7 +102,8 @@ public class MainPage extends JFrame implements ActionListener{
 		}
 		if(btn==searchbtn) {
 			//page2로 넘어가기
-			JFrame search = new searchpage();
+			String id="null";
+			JFrame search = new searchpage(id);
 			search.setVisible(true);
 		}
    
