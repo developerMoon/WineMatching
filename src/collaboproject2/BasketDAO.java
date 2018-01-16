@@ -46,17 +46,17 @@ public class BasketDAO {
 	
 	
 	//장바구니에 집어넣기
-	public void addBasket(String id,int no, String name, String country, int price) {
+	public void addBasket(BasketVO vo) {
 		Connection con=getConnection();
 		PreparedStatement psmt=null;
-		String sql="insert into baskettbl values(?,?,?,?,?)";
+		String sql="insert into baskettbl(id,no,name,country,price) values(?,?,?,?,?)";
 		try {
 			psmt=con.prepareStatement(sql);
-			psmt.setString(1, id);
-			psmt.setInt(2, no);
-			psmt.setString(3, name);
-			psmt.setString(4, country);
-			psmt.setInt(5, price);
+			psmt.setString(1, vo.getId());
+			psmt.setInt(2, vo.getNo());
+			psmt.setString(3, vo.getName());
+			psmt.setString(4, vo.getCountry());
+			psmt.setInt(5, vo.getPrice());
 			
 			psmt.executeUpdate();
 		}catch(Exception e) {
@@ -79,10 +79,10 @@ public class BasketDAO {
 				rs=psmt.executeQuery();
 				while(rs.next()) {
 					
-					int no=rs.getInt(2);
-					String name=rs.getString(3);
-					String country=rs.getString(4);
-					int price=rs.getInt(5);
+					int no=rs.getInt(3);
+					String name=rs.getString(4);
+					String country=rs.getString(5);
+					int price=rs.getInt(6);
 					BasketVO vo=new BasketVO(id, no, name, country, price);
 					vec.add(vo);
 				}
@@ -93,6 +93,24 @@ public class BasketDAO {
 			}
 			return vec;
 		}
-	
+		
+		
+		public void delBasket(String name,String id) {
+			Connection con=getConnection();
+			PreparedStatement psmt=null;
+			String sql="delete from baskettbl where id=? and name=?";
+			try {
+				psmt=con.prepareStatement(sql);
+				psmt.setString(1, id);
+				psmt.setString(2, name);				
+				psmt.executeUpdate();
+			}catch(Exception e) {
+				e.printStackTrace();
+			}finally {
+				dbClose(con, psmt);
+			}
+		}
+		
+		
 	
 }

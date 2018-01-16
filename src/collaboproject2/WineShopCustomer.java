@@ -36,7 +36,8 @@ public class WineShopCustomer extends JFrame implements ActionListener{
 	private JButton btnAdd, btnCancel;
 	private JPanel panel_2; 
 	private ButtonGroup group;
-
+	static String id=null;
+	
 	public WineShopCustomer() {
 		setTitle("WineShop");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -173,8 +174,6 @@ public class WineShopCustomer extends JFrame implements ActionListener{
 			//id조회 가능하고
 			//이후 추가: master경우 관리자 페이지로 넘어가게
 			//일반 회원인 경우 쇼핑몰로 넘어가게
-			System.out.println(vo.getId()+" "+vo.getPw());
-			System.out.println(id+" "+pw);
 			if(vo!=null) {
 				//관리자로그인
 				if(vo.getId().equals("master") && vo.getPw().equals("12345")) { //text...equals...쓰자.. 
@@ -182,7 +181,7 @@ public class WineShopCustomer extends JFrame implements ActionListener{
 					master.setVisible(true);
 					dispose();
 				} else if(vo.getId().equals(id) && vo.getPw().equals(pw)){ //고객로그인
-					searchpage search = new searchpage();
+					searchpage search = new searchpage(id);
 					search.setVisible(true);
 					dispose();
 				}else {

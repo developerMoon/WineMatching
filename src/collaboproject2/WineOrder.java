@@ -49,22 +49,10 @@ public class WineOrder extends JFrame implements ActionListener{
 	private JButton btnBack,btnNext,btnCancel;
 	JTextField txt2,txt3,cTxt2;
 	int pageCount=0;  //0=메인페널 1현금결제 2카드결제 3현금결제중간 4 카드겔제중간 5결제끝
+	private String id;
 	
-	
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					WineOrder frame = new WineOrder();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	public WineOrder() {
+	public WineOrder(String id) {
+		this.id=id;
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 300, 200);
 		contentPane = new JPanel();
@@ -308,7 +296,7 @@ public class WineOrder extends JFrame implements ActionListener{
 				dispose();
 			}
 		}else if(btn==btnCancel) {
-			winebasket basket=new winebasket();
+			winebasket basket=new winebasket(id);
 			basket.setVisible(true);
 			dispose();
 		}

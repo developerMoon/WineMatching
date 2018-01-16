@@ -14,6 +14,7 @@ import javax.swing.JOptionPane;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Vector;
 
 import javax.swing.JTextArea;
 import javax.swing.ImageIcon;
@@ -52,7 +53,7 @@ public class WineDetail extends JFrame implements ActionListener{
 		
 		vo=dao.getRow(idx);
 		
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 957, 765);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -170,11 +171,24 @@ public class WineDetail extends JFrame implements ActionListener{
 					JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null , options, options[0]);	
 			//System.out.println(result); 주문=>0 , 취소=>1
 			if(result==0) {
-				//장바구니에 담을 시
-				winebasket winebask=new winebasket();
-				//winebask.showbasket(idx);
-				winebask.setVisible(true);
 				
+				
+				BasketVO bvo;
+				Vector<BasketVO> bVec=new Vector<>();
+				WineShopCustomer customer=new WineShopCustomer();
+				String id=customer.id;
+				BasketDAO bDAO=new BasketDAO();
+				
+					WineVO vo=dao.getRow(idx);
+					bvo=new BasketVO(id, vo.getNo(), vo.getName(), vo.getCountry(), vo.getPrice());
+					bDAO.addBasket(bvo); //장바구니DB에 넣기
+					bVec=bDAO.getBasket(id);
+					
+					//장바구니에 담을 시
+					winebasket winebask=new winebasket();
+					winebask.showbasket(bVec);
+					winebask.setVisible(true);
+					
 			}else if(result==1) {
 				//취소시
 				dispose();
