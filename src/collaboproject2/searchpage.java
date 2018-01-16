@@ -123,7 +123,7 @@ public class searchpage extends JFrame implements ActionListener{
 		panel_1.add(panel_4);
 		panel_4.setLayout(new GridLayout(3, 0, 0, 0));
 		
-		small = new JRadioButton("10000~30000");
+		small = new JRadioButton("30000 이하");
 		small.setFont(new Font("나눔고딕", Font.PLAIN, 12));
 		panel_4.add(small);
 		
@@ -131,7 +131,7 @@ public class searchpage extends JFrame implements ActionListener{
 		medium.setFont(new Font("나눔고딕", Font.PLAIN, 12));
 		panel_4.add(medium);
 		
-		large = new JRadioButton("50000~");
+		large = new JRadioButton("50000 이상");
 		large.setFont(new Font("나눔고딕", Font.PLAIN, 12));
 		panel_4.add(large);
 		
@@ -208,7 +208,8 @@ public class searchpage extends JFrame implements ActionListener{
 		//JButton btn1=(JButton) e.getSource();
 		int sweet=0;
 		String type=null;
-		int price=0;
+		int lprice=0;
+		int hprice=0;
 		
 		if(btn1==btnorder){
 		//selectedwine wine= new selectedwine();
@@ -237,14 +238,18 @@ public class searchpage extends JFrame implements ActionListener{
 			type="로제";
 		
 		
-		if(small.isSelected())
-			price=10000;
-		if(medium.isSelected())
-			price=30000;
-		if(large.isSelected())
-			price=50000;
-		 
-	
+		if(small.isSelected()) {
+			lprice=0;
+			hprice=30000;
+			}
+		else if(medium.isSelected()) {
+			lprice=30000;
+			hprice=50000;
+			}
+		if(large.isSelected()) {
+			lprice=50000;
+		 	hprice=750000;
+		}
 		// System.out.println(sweet+" "+type+" "+price);
 		 
 		 
@@ -254,8 +259,8 @@ public class searchpage extends JFrame implements ActionListener{
 			
 		 selectedwine wine= new selectedwine(id);		 
 		 wine.setVisible(true);
-		 wine.show(sweet, type, price);
-		 //System.out.println("ddd");
+		 wine.show(sweet, type, lprice, hprice);
+		//System.out.print(sweet+type+lprice+hprice);
 		
 		} else if(btn1==btn) {
 		}

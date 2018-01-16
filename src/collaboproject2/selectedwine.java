@@ -80,7 +80,7 @@ public class selectedwine extends JFrame implements ActionListener{
 
 //
 //
-	public void show(int sweet, String type, int price) {
+	public void show(int sweet, String type, int lprice, int hprice) {
 		
 			//System.out.println(sweet+" "+type+" "+price);
 			//table refresh-우선 새 defaulttable에 담아서 다 지우고
@@ -89,7 +89,7 @@ public class selectedwine extends JFrame implements ActionListener{
 			//검색한 와인 정보 보여주기
 			//레드나 타입으로 검색하게
 			//시간이 나면 생각해 보는걸로
-			 vec=dao.getTable(sweet, type, price);	
+			 vec=dao.getTable(sweet, type, lprice, hprice);	
 			
 			//타입별 와인 조회
 			
@@ -111,7 +111,8 @@ public class selectedwine extends JFrame implements ActionListener{
 		if(btn==btnorder) {
 			/*JOptionPane.showConfirmDialog(this, "주문완료!");*/
 			String options[]= {"주문", "취소"};
-			int result = JOptionPane.showOptionDialog(this, "와인을 주문할까요?", "주문", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null , options, options[0]);	
+			int result = JOptionPane.showOptionDialog(this, "와인을 주문할까요?", "주문", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, 
+					null , options, options[0]);	
 			//System.out.println(result); 주문=>0 , 취소=>1
 			if(result==0) { //주문
 				//사용자가 선택한 행 가져오기

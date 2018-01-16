@@ -51,7 +51,7 @@ public class MainPage extends JFrame implements ActionListener{
 
 	public MainPage() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 901, 500);
+		setBounds(100, 100, 1500, 1200);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);

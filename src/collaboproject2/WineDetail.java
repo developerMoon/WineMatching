@@ -204,10 +204,11 @@ public class WineDetail extends JFrame implements ActionListener{
 					WineVO vo=dao.getRow(idx);
 					bvo=new BasketVO(id, vo.getNo(), vo.getName(), vo.getCountry(), vo.getPrice());
 					bDAO.addBasket(bvo); //장바구니DB에 넣기
+					//임으로 넣움
 					bVec=bDAO.getBasket(id);
 					
 					//장바구니에 담을 시
-					winebasket winebask=new winebasket();
+					winebasket winebask=new winebasket(id);
 					winebask.showbasket(bVec);
 					winebask.setVisible(true);
 					
