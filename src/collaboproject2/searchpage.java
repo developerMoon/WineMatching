@@ -51,7 +51,7 @@ public class searchpage extends JFrame implements ActionListener{
 	public ButtonGroup type1 , menu, money, body1;
 	private String id;
 	private JPanel bodyy;
-	private JRadioButton rdbtnNewRadioButton;
+	private JRadioButton price5;
 	
 	public searchpage(String id) {
 		this.id=id;
@@ -143,7 +143,7 @@ public class searchpage extends JFrame implements ActionListener{
 		JPanel pricee = new JPanel();
 		pricee.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "\uAC00\uACA9", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		panel_1.add(pricee);
-		pricee.setLayout(new GridLayout(0, 0, 0, 0));
+		pricee.setLayout(new GridLayout(5, 0, 0, 0));
 		
 		price1 = new JRadioButton("5,000~30,000 ");
 		price1.setFont(new Font("나눔고딕", Font.PLAIN, 12));
@@ -165,11 +165,14 @@ public class searchpage extends JFrame implements ActionListener{
 		rd5.setFont(new Font("나눔고딕", Font.PLAIN, 12));
 		sweett.add(rd5);
 		
-		rdbtnNewRadioButton = new JRadioButton("New radio button");
-		pricee.add(rdbtnNewRadioButton);
-		
 		price4 = new JRadioButton("150,000~");
 		pricee.add(price4);
+		//15~
+		money.add(price4);
+		price4.addActionListener(this);
+		
+		price5 = new JRadioButton("가격 무관");
+		pricee.add(price5);
 		
 		btncancel = new JButton("취소");
 		panel.add(btncancel);
@@ -209,8 +212,6 @@ public class searchpage extends JFrame implements ActionListener{
 		money.add(price2);
 		//5~15
 		money.add(price3);
-		//15~
-		money.add(price4);
 		
 	
 		
@@ -235,7 +236,6 @@ public class searchpage extends JFrame implements ActionListener{
 		price1.addActionListener(this);
 		price2.addActionListener(this);
 		price3.addActionListener(this);
-		price4.addActionListener(this);
 		
 		btnorder.addActionListener(this);
 		btncancel.addActionListener(this);
