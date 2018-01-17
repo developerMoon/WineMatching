@@ -205,7 +205,7 @@ public class searchpage extends JFrame implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		AbstractButton btn1 = (AbstractButton) e.getSource();
 		
-		//JButton btn1=(JButton) e.getSource();
+		
 		int sweet=0;
 		String type=null;
 		int lprice=0;
