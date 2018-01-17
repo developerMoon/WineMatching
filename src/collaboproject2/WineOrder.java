@@ -120,6 +120,7 @@ public class WineOrder extends JFrame implements ActionListener{
 				btnNext.setEnabled(false);
 				btnBack.setEnabled(true);
 				pageCount=1;
+				pack();
 			}
 		});
 		rbtnCard.addActionListener(new ActionListener() {
@@ -132,6 +133,7 @@ public class WineOrder extends JFrame implements ActionListener{
 				btnNext.setEnabled(false);
 				btnBack.setEnabled(true);
 				pageCount=2;
+				pack();
 			}
 		});
 		
@@ -318,7 +320,7 @@ public class WineOrder extends JFrame implements ActionListener{
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		BasketDAO bDAO=new BasketDAO();
+		
 		JButton btn=(JButton)e.getSource();
 		if(btn==btnBack) {
 				card.show(panel, "main");
@@ -326,12 +328,7 @@ public class WineOrder extends JFrame implements ActionListener{
 				pageCount=0;		
 		}else if(btn==btnNext) {
 			if(pageCount==1 || pageCount==2) {
-				titleLabel.setText("결제완료");
-				card.show(panel, "last");
-				btnNext.setText("확인");
-				btnBack.setVisible(false);
-				pageCount=3;
-				bDAO.delBasket(id);//장바구니에있는거 지우기
+				setLast();
 			}else if(pageCount==3) {
 				reset();
 				dispose();
@@ -346,8 +343,23 @@ public class WineOrder extends JFrame implements ActionListener{
 		btnBack.setText("이전");
 		btnBack.setVisible(true);
 		btnBack.setEnabled(false);
+		btnCancel.setVisible(true);
 		titleLabel.setText("결제선택");
 		pageCount=0;
+		setBounds(100, 100, 300, 200);
+		repaint();
+	}
+	public void setLast() {
+		BasketDAO bDAO=new BasketDAO();
+		titleLabel.setText("결제완료");
+		card.show(panel, "last");
+		btnNext.setText("확인");
+		btnBack.setVisible(false);
+		btnCancel.setVisible(false);
+		pageCount=3;
+		setBounds(100, 100, 300, 200);
+		repaint();
+		bDAO.delBasket(id);//장바구니에있는거 지우기
 	}
 	
 	
