@@ -52,8 +52,8 @@ public class searchpage extends JFrame implements ActionListener{
 	private String id;
 	private JPanel bodyy;
 
-/*	
-	public static void main(String[] args) {
+
+/*	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -64,8 +64,8 @@ public class searchpage extends JFrame implements ActionListener{
 				}
 			}
 		});
-	}*/
-	
+	}
+	*/
 	public searchpage(String id) {
 		this.id=id;
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);//x버튼 비활성화
@@ -323,11 +323,13 @@ public class searchpage extends JFrame implements ActionListener{
 			 wine.setVisible(true);
 			 wine.show(body,sweet, type, lprice, hprice);
 			//System.out.print(sweet+type+lprice+hprice);
-			// System.out.println(body +""+ sweet + type+ lprice+""+hprice);
+		 System.out.println(body +""+ sweet + type+ lprice+""+hprice);
 		} else if(btn1==btncancel) {
 			dispose();
 		}else if(btn1==btnlist) {
-			
+			AllWineList frame = new AllWineList();
+			frame.setVisible(true);
+			frame.wines();
 			
 		}
 	}
