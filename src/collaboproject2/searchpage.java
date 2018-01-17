@@ -46,12 +46,25 @@ import javax.swing.JInternalFrame;
 public class searchpage extends JFrame implements ActionListener{
 
 	private JPanel contentPane;
-	private JRadioButton rd1,rd2,rd3,rd4,rd5,rdb1,rdb2,rdb3,rdb4,rdb5,rdred,rdwhite,rdsp,rdro,price1,price2,price3,price4;
+	private JRadioButton rd1,rd2,rd3,rd4,rd5,rdb1,rdb2,rdb3,rdb4,rdb5,rdred,rdwhite,rdsp,rdro,price1,price2,price3,price4,price5;
 	private JButton btnorder, btnlist, btncancel;
-	public ButtonGroup type1 , menu, money, body1;
+	public ButtonGroup type1 , sweet, money, body1;
 	private String id;
 	private JPanel bodyy;
-	private JRadioButton price5;
+
+/*	
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					searchpage frame = new searchpage(id);
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}*/
 	
 	public searchpage(String id) {
 		this.id=id;
@@ -168,7 +181,7 @@ public class searchpage extends JFrame implements ActionListener{
 		price4 = new JRadioButton("150,000~");
 		pricee.add(price4);
 		//15~
-		money.add(price4);
+		
 		price4.addActionListener(this);
 		
 		price5 = new JRadioButton("가격 무관");
@@ -188,12 +201,12 @@ public class searchpage extends JFrame implements ActionListener{
 		
 		
 		//그룹으로 묶어서 한 열당 하나만 선택하도록, 당도
-		menu = new ButtonGroup();
-		menu.add(rd1);
-		menu.add(rd2);
-		menu.add(rd3);
-		menu.add(rd4);
-		menu.add(rd5);
+		sweet = new ButtonGroup();
+		sweet.add(rd1);
+		sweet.add(rd2);
+		sweet.add(rd3);
+		sweet.add(rd4);
+		sweet.add(rd5);
 		
 	
 				
@@ -212,6 +225,8 @@ public class searchpage extends JFrame implements ActionListener{
 		money.add(price2);
 		//5~15
 		money.add(price3);
+		money.add(price4);
+		money.add(price5);
 		
 	
 		
@@ -236,6 +251,8 @@ public class searchpage extends JFrame implements ActionListener{
 		price1.addActionListener(this);
 		price2.addActionListener(this);
 		price3.addActionListener(this);
+		price4.addActionListener(this);
+		price5.addActionListener(this);
 		
 		btnorder.addActionListener(this);
 		btncancel.addActionListener(this);
@@ -291,6 +308,10 @@ public class searchpage extends JFrame implements ActionListener{
 				lprice=150000;
 			 	hprice=800000;
 			}
+			if(price5.isSelected()) {
+				lprice=1000;
+			 	hprice=800000;
+			}
 			// System.out.println(sweet+" "+type+" "+price);
 			 
 			 
@@ -302,9 +323,11 @@ public class searchpage extends JFrame implements ActionListener{
 			 wine.setVisible(true);
 			 wine.show(body,sweet, type, lprice, hprice);
 			//System.out.print(sweet+type+lprice+hprice);
-			
+			 System.out.println(body +""+ sweet + type+ lprice+""+hprice);
 		} else if(btn1==btncancel) {
 			dispose();
+		}else if(btn1==btnlist) {
+			
 		}
 	}
 }

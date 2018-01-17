@@ -90,7 +90,7 @@ public class selectedwine extends JFrame implements ActionListener{
 			//레드나 타입으로 검색하게
 			//시간이 나면 생각해 보는걸로
 			 vec=dao.getTable(body, sweet, type, lprice, hprice);	
-			
+			System.out.println(body+sweet + type+ lprice+hprice);
 			//타입별 와인 조회
 			
 				for(WineVO vo : vec) {
@@ -100,7 +100,12 @@ public class selectedwine extends JFrame implements ActionListener{
 					rowData.addElement(vo.getCountry());
 					rowData.addElement(vo.getPrice());
 					model.addRow(rowData);
-	}
+					}
+			if(vec==null) {
+				String options[]= {"이전"};
+				int result = JOptionPane.showOptionDialog(this, "검색된 결과의 와인이 없습니다", "이전", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, 
+						null , options, options[0]);	
+			}
 	
 	
 }
