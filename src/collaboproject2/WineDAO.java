@@ -148,6 +148,7 @@ public class WineDAO {
 			dbClose(con, psmt, rs);
 		}
 		return vo;
+		
 	}
 	
 	//와인 레드, 화이트 등 타입에 따라 조회
@@ -227,6 +228,7 @@ public class WineDAO {
 		}
 		return vec;
 	}
+	
 	
 	public int wineDelete(int no) {
 		PreparedStatement psmt=null;

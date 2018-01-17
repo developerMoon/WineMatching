@@ -257,7 +257,8 @@ public class searchpage extends JFrame implements ActionListener{
 		String type="화이트";
 		int money=20000;*/
 			
-		 selectedwine wine= new selectedwine(id);		 
+		 //selectedwine wine= new selectedwine(id);	
+		 Pselectedwine2 wine= new Pselectedwine2(id);
 		 wine.setVisible(true);
 		 wine.show(sweet, type, lprice, hprice);
 		//System.out.print(sweet+type+lprice+hprice);
