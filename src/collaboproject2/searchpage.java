@@ -323,10 +323,11 @@ public class searchpage extends JFrame implements ActionListener{
 			 wine.setVisible(true);
 			 wine.show(body,sweet, type, lprice, hprice);
 			//System.out.print(sweet+type+lprice+hprice);
-			 System.out.println(body +""+ sweet + type+ lprice+""+hprice);
+			// System.out.println(body +""+ sweet + type+ lprice+""+hprice);
 		} else if(btn1==btncancel) {
 			dispose();
 		}else if(btn1==btnlist) {
+			
 			
 		}
 	}

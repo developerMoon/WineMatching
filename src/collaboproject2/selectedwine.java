@@ -79,7 +79,7 @@ public class selectedwine extends JFrame implements ActionListener{
 	}
 
 //
-//
+//선택한 와인 목록 보여줌
 	public void show(int body, int sweet, String type, int lprice, int hprice) {
 		
 			//System.out.println(sweet+" "+type+" "+price);
