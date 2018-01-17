@@ -318,6 +318,7 @@ public class WineOrder extends JFrame implements ActionListener{
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		BasketDAO bDAO=new BasketDAO();
 		JButton btn=(JButton)e.getSource();
 		if(btn==btnBack) {
 				card.show(panel, "main");
@@ -330,6 +331,7 @@ public class WineOrder extends JFrame implements ActionListener{
 				btnNext.setText("확인");
 				btnBack.setVisible(false);
 				pageCount=3;
+				bDAO.delBasket(id);//장바구니에있는거 지우기
 			}else if(pageCount==3) {
 				reset();
 				dispose();

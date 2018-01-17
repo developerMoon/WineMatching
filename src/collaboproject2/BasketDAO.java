@@ -156,6 +156,21 @@ public class BasketDAO {
 				dbClose(con, psmt);
 			}
 		}	
+		//삭제
+		public void delBasket(String id) {
+			Connection con=getConnection();
+			PreparedStatement psmt=null;
+			String sql="delete from baskettbl where id=?";
+			try {
+				psmt=con.prepareStatement(sql);
+				psmt.setString(1, id);
+				psmt.executeUpdate();
+			}catch(Exception e) {
+				e.printStackTrace();
+			}finally {
+				dbClose(con, psmt);
+			}
+		}	
 		//개수증가
 		public void countUp(String name,String id,int count) {
 			Connection con=getConnection();
