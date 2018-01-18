@@ -179,7 +179,6 @@ public class Pselectedwine2 extends JFrame implements ActionListener{
 					name=str;break;
 				}
 			}
-			
 		}		
 	}
 	class menuItemListner implements ActionListener{
