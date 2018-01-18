@@ -31,6 +31,8 @@ import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JMenuItem;
+import java.awt.Color;
+import java.awt.Font;
 
 public class Pselectedwine2 extends JFrame implements ActionListener{
 
@@ -52,21 +54,28 @@ public class Pselectedwine2 extends JFrame implements ActionListener{
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 700);
 		contentPane = new JPanel();
+		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
 		
 		panel = new JPanel();
+		panel.setBackground(Color.WHITE);
 		contentPane.add(panel, BorderLayout.SOUTH);
 		
 		btnorder = new JButton("주문하기");
+		btnorder.setForeground(Color.WHITE);
+		btnorder.setFont(new Font("나눔고딕 ExtraBold", Font.PLAIN, 14));
+		btnorder.setBackground(Color.PINK);
 		panel.add(btnorder);
 		
 		centerPanel = new JPanel();
+		centerPanel.setBackground(Color.WHITE);
 		contentPane.add(centerPanel, BorderLayout.CENTER);
 		centerPanel.setLayout(new GridLayout(0, 3, 0, 5));
 		
 		btnorder.addActionListener(this);
+		
 	}
 
 //
@@ -93,14 +102,31 @@ public class Pselectedwine2 extends JFrame implements ActionListener{
 		        tbtn.setVerticalTextPosition(SwingConstants.BOTTOM);
 		        
 		        tbtn.setBounds(0, 0, 30, 50);
+		        
+		        //디자인
+		        tbtn.setBackground(Color.white);
+		        tbtn.setFont(new Font("나눔고딕 ExtraBold", Font.PLAIN, 12));
 		        tbtn.addActionListener(new buttonListener());				
 				
 				popupMenu = new JPopupMenu(); //마우스 우클릭하면 나타나는 상세
-				addPopup(tbtn, popupMenu);				
+				addPopup(tbtn, popupMenu);
+				
+				//디자인
+				popupMenu.setBackground(Color.white);
+				
 				menuItemInfo = new JMenuItem("상세정보보기");
+				//폰트수정함
+				menuItemInfo.setFont(new Font("나눔고딕", Font.PLAIN, 13));
+				
 				menuItemOrder = new JMenuItem("주문하기");
+				menuItemOrder.setFont(new Font("나눔고딕", Font.PLAIN, 13));
+				
 				menuItemBasket = new JMenuItem("장바구니담기");
+				menuItemBasket.setFont(new Font("나눔고딕", Font.PLAIN, 13));
+				
 				menuItemGoBasket = new JMenuItem("장바구니보기");
+				menuItemGoBasket.setFont(new Font("나눔고딕", Font.PLAIN, 13));
+				
 				popupMenu.add(menuItemInfo);
 				popupMenu.add(menuItemOrder);
 				popupMenu.add(menuItemBasket);
