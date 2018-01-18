@@ -12,6 +12,8 @@ import javax.swing.JButton;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.ImageIcon;
 
@@ -83,10 +85,18 @@ public class bestWine extends JFrame implements ActionListener{
 		//기본으로 띄워놓기
 		main.setIcon(new ImageIcon(bestWine.class.getResource("/page/best0.jpg")));
 		
+		
 		//버튼 actionListener 추가
 		btnright.addActionListener(this);
 		btnleft.addActionListener(this);
 		
+		//이 창만 닫기위해서 설정
+		addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e) {
+				setVisible(false);
+				dispose();
+		}});
+
 	}//public bestWine close
 	
 	//주문하기 버튼 만들어서 똑같은 플로우로...?! >>주문>>장바구니..	
