@@ -12,7 +12,7 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
-import javafx.scene.layout.Border;
+//import javafx.scene.layout.Border;
 
 import javax.swing.JLabel;
 import javax.swing.JList;
