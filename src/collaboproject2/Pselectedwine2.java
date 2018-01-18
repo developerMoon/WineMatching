@@ -73,7 +73,7 @@ public class Pselectedwine2 extends JFrame implements ActionListener{
 //
 
 	public void show(int body, int sweet, String type, int lprice, int hprice) {
-		//검색한 것 가져온것
+		//검색한 것 가져온것 사진과 이름 붙임 
 			WineDAO dao=new WineDAO();
 			 vec=dao.getTable(body ,sweet, type, lprice, hprice);	
 
@@ -81,7 +81,7 @@ public class Pselectedwine2 extends JFrame implements ActionListener{
 			 for(int i=0;i<vec.size();i++) {
 				 WineVO vo=vec.get(i);
 				ImageIcon icon=new ImageIcon(WineDetail.class.getResource("/collaboproject2/"+vo.getNo()+".jpg")); 
-				Image image=icon.getImage();
+				Image image=icon.getImage(); //
 				Image changeImage=image.getScaledInstance(100, 180, Image.SCALE_SMOOTH);
 				ImageIcon newIcon=new ImageIcon(changeImage);
 				String name=vo.getName();
@@ -95,7 +95,7 @@ public class Pselectedwine2 extends JFrame implements ActionListener{
 		        tbtn.setBounds(0, 0, 30, 50);
 		        tbtn.addActionListener(new buttonListener());				
 				
-				popupMenu = new JPopupMenu();
+				popupMenu = new JPopupMenu(); //마우스 우클릭하면 나타나는 상세
 				addPopup(tbtn, popupMenu);				
 				menuItemInfo = new JMenuItem("상세정보보기");
 				menuItemOrder = new JMenuItem("주문하기");
@@ -169,7 +169,7 @@ public class Pselectedwine2 extends JFrame implements ActionListener{
 			JOptionPane.showMessageDialog(this, "와인을 선택해주세요");
 		}
 	}
-	//선택한거
+	//선택한거 -  여기서 그 마지막
 	class buttonListener implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent e) {
