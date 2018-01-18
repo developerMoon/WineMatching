@@ -71,10 +71,12 @@ public class Pselectedwine2 extends JFrame implements ActionListener{
 
 //
 //
+
 	public void show(int body, int sweet, String type, int lprice, int hprice) {
 		//검색한 것 가져온것
 			WineDAO dao=new WineDAO();
 			 vec=dao.getTable(body ,sweet, type, lprice, hprice);	
+
 			 
 			 for(int i=0;i<vec.size();i++) {
 				 WineVO vo=vec.get(i);

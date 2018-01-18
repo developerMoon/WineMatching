@@ -266,13 +266,8 @@ public class searchpage extends JFrame implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		AbstractButton btn1 = (AbstractButton) e.getSource();
-		
-//<<<<<<< HEAD
-		
-//=======
-		//JButton btn1=(JButton) e.getSource();
+
 		int body=0;
-//>>>>>>> branch 'master' of https://github.com/developerMoon/WineMatching.git
 		int sweet=0;
 		String type=null;
 		int lprice=0;
@@ -285,14 +280,9 @@ public class searchpage extends JFrame implements ActionListener{
 			if(rdb3.isSelected()) body=3;	
 			if(rdb4.isSelected()) body=4;
 			if(rdb5.isSelected()) body=5;
-			
-//<<<<<<< HEAD
-		 //selectedwine wine= new selectedwine(id);	
-		
-		//System.out.print(sweet+type+lprice+hprice);
+
 		
 		
-//=======
 			if(rd1.isSelected()) sweet=1;
 			if(rd2.isSelected()) sweet=2;
 			if(rd3.isSelected()) sweet=3;	
@@ -333,7 +323,12 @@ public class searchpage extends JFrame implements ActionListener{
 			 Pselectedwine2 wine= new Pselectedwine2(id);
 			 wine.setVisible(true);
 			 wine.show(body, sweet, type, lprice, hprice);
-			 
+		
+		/*	 Pselectedwine2 wine= new Pselectedwine2(id);
+			 wine.setVisible(true);
+			 wine.show(sweet, type, lprice, hprice);
+			//System.out.print(sweet+type+lprice+hprice);
+*/			
 		/*	 selectedwine wine= new selectedwine(id);		 
 			 wine.setVisible(true);
 			 wine.show(body,sweet, type, lprice, hprice);*/
@@ -345,8 +340,7 @@ public class searchpage extends JFrame implements ActionListener{
 			AllWineList frame = new AllWineList();
 			frame.setVisible(true);
 			frame.wines();
-			
-//>>>>>>> branch 'master' of https://github.com/developerMoon/WineMatching.git
+
 		}
 	}
 }
