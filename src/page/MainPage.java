@@ -7,6 +7,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import org.w3c.dom.css.RGBColor;
+
 import collaboproject2.WineShopCustomer;
 import collaboproject2.searchpage;
 
@@ -19,6 +21,7 @@ import java.awt.event.ActionListener;
 import java.awt.CardLayout;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
+import java.awt.color.*;
 /*import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;*/
@@ -29,12 +32,15 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
 import java.awt.Color;
+import java.awt.Dimension;
+
 import javax.swing.ImageIcon;
 
 public class MainPage extends JFrame implements ActionListener{
 
 	private JPanel contentPane;
 	private JButton loginbtn,searchbtn;
+	
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -51,7 +57,7 @@ public class MainPage extends JFrame implements ActionListener{
 
 	public MainPage() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1500, 1200);
+		setBounds(100, 100, 901, 500);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -59,7 +65,7 @@ public class MainPage extends JFrame implements ActionListener{
 		
 		JPanel panel = new JPanel();
 		contentPane.add(panel, BorderLayout.NORTH);
-		panel.setLayout(new GridLayout(0, 3, 0, 0));
+		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
 		JLabel LOGO = new JLabel("");
 		LOGO.setIcon(new ImageIcon(MainPage.class.getResource("/page/winelogo.png")));
@@ -73,11 +79,15 @@ public class MainPage extends JFrame implements ActionListener{
 		panel_1.setLayout(new GridLayout(0, 2, 0, 0));
 		
 		loginbtn = new JButton("");
+		loginbtn.setSize(55,19);
+		loginbtn.setBackground(Color.pink); //loginbtn 배경색을 HSB 형태로 받음
 		loginbtn.setIcon(new ImageIcon(MainPage.class.getResource("/page/login_sq.png")));
 		panel_1.add(loginbtn);
 		
 		
 		searchbtn = new JButton("");
+		searchbtn.setSize(55,19);
+		searchbtn.setBackground(Color.white);
 		searchbtn.setIcon(new ImageIcon(MainPage.class.getResource("/page/search_sq.png")));
 		panel_1.add(searchbtn);
 		
@@ -95,6 +105,7 @@ public class MainPage extends JFrame implements ActionListener{
 	//Action �߰��ϱ�
 	public void actionPerformed(ActionEvent e) {
 		JButton btn=(JButton) e.getSource();
+
 		if(btn==loginbtn) {
 			//login으로 넘어가기
 			JFrame login = new WineShopCustomer();
@@ -102,8 +113,7 @@ public class MainPage extends JFrame implements ActionListener{
 		}
 		if(btn==searchbtn) {
 			//page2로 넘어가기
-			String id="null";
-			JFrame search = new searchpage(id);
+			JFrame search = new searchpage("id");
 			search.setVisible(true);
 		}
    

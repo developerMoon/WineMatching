@@ -188,23 +188,24 @@ public class WineDAO {
 	}
 	
 	//겁색 필터 따른 조회
-	public Vector<WineVO> getTable(int sweet, String type, int lprice , int hprice ) {
+	public Vector<WineVO> getTable(int body, int sweet, String type, int lprice , int hprice ) {
 		Vector<WineVO> vec=new Vector<>();
 		Connection con=null;
 		PreparedStatement psmt=null;
 		ResultSet rs=null;
 		//0~3 3~5 5~이상의 값 조회 위해 between
-		String sql="select * from winetbl where sweet=? and type=? and price >=? and price <=?";
+		String sql="select * from winetbl where body=? and sweet=? and type=? and price >=? and price <=?";
 	
 		try {
 			con=getConnection();
 			psmt=con.prepareStatement(sql);
-			psmt.setInt(1, sweet);
-			psmt.setString(2, type);
+			psmt.setInt(1, body);
+			psmt.setInt(2, sweet);
+			psmt.setString(3, type);
 			//lprice 이상
-			psmt.setInt(3, lprice);
+			psmt.setInt(4, lprice);
 			//hprice 이하
-			psmt.setInt(4, hprice);
+			psmt.setInt(5, hprice);
 			rs=psmt.executeQuery();
 			while(rs.next()) { //while문이 제대로 안 돼서 오류났었음
 				WineVO vo=new WineVO();
