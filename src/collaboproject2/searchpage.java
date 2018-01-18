@@ -85,6 +85,7 @@ public class searchpage extends JFrame implements ActionListener{
 		contentPane.add(panel, BorderLayout.SOUTH);
 		
 		btnlist = new JButton("전체 와인 조회");
+		btnlist.setFont(new Font("Dialog", Font.PLAIN, 12));
 		panel.add(btnlist);
 		
 		btnorder = new JButton("\uC8FC\uBB38");
@@ -101,18 +102,23 @@ public class searchpage extends JFrame implements ActionListener{
 		bodyy.setLayout(new GridLayout(0, 1, 0, 0));
 		
 		rdb1 = new JRadioButton("1");
+		rdb1.setFont(new Font("Dialog", Font.PLAIN, 12));
 		bodyy.add(rdb1);
 		
 		rdb2 = new JRadioButton("2");
+		rdb2.setFont(new Font("Dialog", Font.PLAIN, 12));
 		bodyy.add(rdb2);
 		
 		rdb3 = new JRadioButton("3");
+		rdb3.setFont(new Font("Dialog", Font.PLAIN, 12));
 		bodyy.add(rdb3);
 		
 		rdb4 = new JRadioButton("4");
+		rdb4.setFont(new Font("Dialog", Font.PLAIN, 12));
 		bodyy.add(rdb4);
 		
 		rdb5 = new JRadioButton("5");
+		rdb5.setFont(new Font("Dialog", Font.PLAIN, 12));
 		bodyy.add(rdb5);
 		
 		JPanel sweett = new JPanel();
@@ -179,15 +185,18 @@ public class searchpage extends JFrame implements ActionListener{
 		sweett.add(rd5);
 		
 		price4 = new JRadioButton("150,000~");
+		price4.setFont(new Font("Dialog", Font.PLAIN, 12));
 		pricee.add(price4);
 		//15~
 		
 		price4.addActionListener(this);
 		
 		price5 = new JRadioButton("가격 무관");
+		price5.setFont(new Font("Dialog", Font.PLAIN, 12));
 		pricee.add(price5);
 		
 		btncancel = new JButton("취소");
+		btncancel.setFont(new Font("Dialog", Font.PLAIN, 12));
 		panel.add(btncancel);
 		
 		
@@ -333,7 +342,7 @@ public class searchpage extends JFrame implements ActionListener{
 			 wine.setVisible(true);
 			 wine.show(body,sweet, type, lprice, hprice);*/
 			//System.out.print(sweet+type+lprice+hprice);
-		 System.out.println(body +""+ sweet + type+ lprice+""+hprice);
+		// System.out.println(body +""+ sweet + type+ lprice+""+hprice);
 		} else if(btn1==btncancel) {
 			dispose();
 		}else if(btn1==btnlist) {
