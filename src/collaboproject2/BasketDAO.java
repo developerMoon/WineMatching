@@ -100,7 +100,7 @@ public class BasketDAO {
 			try {
 				psmt=con.prepareStatement(sql);
 				psmt.setString(1, id);				
-				rs=psmt.executeQuery();
+				rs=psmt.executeQuery();   //여기서 오류남
 				while(rs.next()) {
 					int no=rs.getInt(2);
 					String name=rs.getString(3);
